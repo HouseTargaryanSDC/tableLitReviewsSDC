@@ -1,6 +1,7 @@
 const faker = require('faker');
 const path = require('path');
 const fs = require('fs');
+const { performance, PerformanceObserver } = require('perf_hooks');
 
 const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/reviews_table.csv'));
 
@@ -14,41 +15,57 @@ function generateRandomNumberBetween(beg, end) {
 }
 
 
-let id = 1;
+let id = -1;
 
 // make 10 million records
 
-const numberOfRecords = 10; // 10000000;
+function writeOneMillionTimes(writer, encoding, callback) {
+  let i = 10;
+  write();
+  function write() {
+    let ok = true;
+    do {
+      const user_id = generateRandomNumberBetween(1, 1000000);
+      const restaurant_id = generateRandomNumberBetween(1, 10000000);
+      const review_text = faker.lorem.sentences(6);
+      const overall_score = generateRandomNumberBetween(0, 5);
+      const food_score = generateRandomNumberBetween(0, 5);
+      const ambience_score = generateRandomNumberBetween(0, 5);
+      const value_score = generateRandomNumberBetween(0, 5);
+      const would_recommend = randomBooleanValue(generateRandomNumberBetween(1, 100));
+      const dined_on_date = faker.date.between('11/1/2018', '1/31/2019');
+      
+      id += 1;
+      i -= 1;
 
-for (let i = 0; i <= numberOfRecords; i += 1) {
-  if (i === 0) {
-    file.write('id,user_id,restaurant_id,review_text,overall_score,food_score,ambience_score,value_score,would_recommend,dined_on_date\n', (err) => {
-      if (err) {
-        console.log('error writing to file', err);
-      } else {
-        console.log('success writing headers in csv');
-      }
-    });
-  } else {
-    const user_id = generateRandomNumberBetween(1, 1000000);
-    const restaurant_id = generateRandomNumberBetween(1, 10000000);
-    const review_text = faker.lorem.sentences(6);
-    const overall_score = generateRandomNumberBetween(0, 5);
-    const food_score = generateRandomNumberBetween(0, 5);
-    const ambience_score = generateRandomNumberBetween(0, 5);
-    const value_score = generateRandomNumberBetween(0, 5);
-    const would_recommend = randomBooleanValue(generateRandomNumberBetween(1, 100));
-    const dined_on_date = faker.date.between('11/1/2018', '1/31/2019');
+      let toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
 
-    const toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
-    file.write(toWrite, (err) => {
-      if (err) {
-        console.log('error writing to file -->', err);
-      } else {
-        // console.log('id: ', id);
+      if (i === 9) {
+        toWrite = 'id,user_id,restaurant_id,review_text,overall_score,food_score,ambience_score,value_score,would_recommend,dined_on_date\n';
       }
-    });
-    id += 1;
+      if (i === 0) {
+        // last time!
+        writer.write(toWrite, encoding, callback);
+      } else {
+        // see if we should continue, or wait
+        // don't pass the callback, because we're not done yet.
+        ok = writer.write(toWrite, encoding);
+      }
+    } while (i > 0 && ok);
+    if (i > 0) {
+      // had to stop early!
+      // write some more once it drains
+      writer.once('drain', write);
+    }
   }
 }
-file.end();
+
+const wrapped = performance.timerify(writeOneMillionTimes);
+
+const obs = new PerformanceObserver((list) => {
+  console.log(list.getEntries()[0].duration);
+  obs.disconnect();
+});
+obs.observe({ entryTypes: ['function'] });
+
+wrapped(file, 'utf-8', () => { file.end(); });

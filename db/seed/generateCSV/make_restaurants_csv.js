@@ -1,35 +1,52 @@
 const faker = require('faker');
 const path = require('path');
 const fs = require('fs');
+const { performance, PerformanceObserver } = require('perf_hooks');
 
 const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/restaurants_table.csv'));
 
-let id = 1;
+let id = -1;
 
 // make 1 million records
 
-const numberOfRecords = 10; // 1000000;
+function writeOneMillionTimes(writer, encoding, callback) {
+  let i = 10;
+  write();
+  function write() {
+    let ok = true;
+    do {
+      i -= 1;
+      id += 1;
 
-for (let i = 0; i <= numberOfRecords; i += 1) {
-  if (i === 0) {
-    file.write('id,restaurant_name \n', (err) => {
-      if (err) {
-        console.log('error writing to file', err);
-      } else {
-        console.log('success writing headers in csv');
+      const name = faker.company.companyName().split(',').join('');
+      let toWrite = `${id}, ${name},` + '\n';
+
+      if (i === 9) {
+        toWrite = 'id,restaurant_name \n';
       }
-    });
-  } else {
-    const name = faker.company.companyName().split(',').join('');
-    const toWrite = `${id}, ${name},` + '\n';
-    file.write(toWrite, (err) => {
-      if (err) {
-        console.log('error writing to file -->', err);
+      if (i === 0) {
+        // last time!
+        writer.write(toWrite, encoding, callback);
       } else {
-        // console.log('id: ', id);
+        // see if we should continue, or wait
+        // don't pass the callback, because we're not done yet.
+        ok = writer.write(toWrite, encoding);
       }
-    });
-    id += 1;
+    } while (i > 0 && ok);
+    if (i > 0) {
+      // had to stop early!
+      // write some more once it drains
+      writer.once('drain', write);
+    }
   }
 }
-file.end();
+
+const wrapped = performance.timerify(writeOneMillionTimes);
+
+const obs = new PerformanceObserver((list) => {
+  console.log(list.getEntries()[0].duration);
+  obs.disconnect();
+});
+obs.observe({ entryTypes: ['function'] });
+
+wrapped(file, 'utf-8', () => { file.end(); });

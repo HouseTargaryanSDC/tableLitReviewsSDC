@@ -1,37 +1,56 @@
 const faker = require('faker');
 const path = require('path');
 const fs = require('fs');
+const { performance, PerformanceObserver } = require('perf_hooks');
 
 const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/users_table.csv'));
 
-let id = 1;
+let id = -1;
 
-const numberOfRecords = 10; // 1000000;
+// make 1 million records
 
-for (let i = 0; i <= numberOfRecords; i += 1) {
-  if (i === 0) {
-    file.write('id,user_name,user_initials,user_city \n', (err) => {
-      if (err) {
-        console.log('error writing to file', err);
-      } else {
-        console.log('success writing headers in csv');
+function writeOneMillionTimes(writer, encoding, callback) {
+  let i = 10;
+  write();
+  function write() {
+    let ok = true;
+    do {
+      const first = faker.name.firstName();
+      const last = faker.name.lastName();
+      const user_initials = `${first[0]}${last[0]}`;
+      const name = `${first} ${last}`;
+
+      id += 1;
+      i -= 1;
+
+      let toWrite = `${id},${name},${user_initials},${faker.address.city()}` + '\n';
+
+      if (i === 9) {
+        toWrite = 'id,user_name,user_initials,user_city \n';
       }
-    });
-  } else {
-    const first = faker.name.firstName();
-    const last = faker.name.lastName();
-    const user_initials = `${first[0]}${last[0]}`;
-    const name = `${first} ${last}`; 
-    const toWrite = `${id},${name},${user_initials},${faker.address.city()}` + '\n';
-
-    file.write(toWrite, (err) => {
-      if (err) {
-        console.log('error writing to file -->', err);
+      if (i === 0) {
+        // last time!
+        writer.write(toWrite, encoding, callback);
       } else {
-        // console.log('id: ', id);
+        // see if we should continue, or wait
+        // don't pass the callback, because we're not done yet.
+        ok = writer.write(toWrite, encoding);
       }
-    });
-    id += 1;
+    } while (i > 0 && ok);
+    if (i > 0) {
+      // had to stop early!
+      // write some more once it drains
+      writer.once('drain', write);
+    }
   }
 }
-file.end();
+
+const wrapped = performance.timerify(writeOneMillionTimes);
+
+const obs = new PerformanceObserver((list) => {
+  console.log(list.getEntries()[0].duration);
+  obs.disconnect();
+});
+obs.observe({ entryTypes: ['function'] });
+
+wrapped(file, 'utf-8', () => { file.end(); });
