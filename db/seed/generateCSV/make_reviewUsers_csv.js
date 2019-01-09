@@ -16,11 +16,13 @@ function generateRandomNumberBetween(beg, end) {
 
 
 let id = 0;
+const start = Date.now();
+
 
 // make 10 million records
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 20;
+  let i = 10000000;
   let restaurant_id = generateRandomNumberBetween(1, 1000000);
 
   write();
@@ -36,7 +38,7 @@ function writeOneMillionTimes(writer, encoding, callback) {
       if (i % 10 === 0) {
         restaurant_id = generateRandomNumberBetween(1, 1000000);
       }
-      if (i === 19) {
+      if (i === 9999999) {
         toWrite = 'id,user_id,restaurant_id \n';
       }
       if (i === 0) {
@@ -56,12 +58,8 @@ function writeOneMillionTimes(writer, encoding, callback) {
   }
 }
 
-const wrapped = performance.timerify(writeOneMillionTimes);
-
-const obs = new PerformanceObserver((list) => {
-  console.log(list.getEntries()[0].duration);
-  obs.disconnect();
+writeOneMillionTimes(file, 'utf-8', () => {
+  file.end();
+  const stop = Date.now() - start;
+  console.log('Runtime: ', stop);
 });
-obs.observe({ entryTypes: ['function'] });
-
-wrapped(file, 'utf-8', () => { file.end(); });

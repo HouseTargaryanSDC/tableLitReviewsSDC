@@ -1,10 +1,10 @@
 const faker = require('faker');
 const path = require('path');
 const fs = require('fs');
-const { performance, PerformanceObserver } = require('perf_hooks');
 
 const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/reviews_table.csv'));
 
+const start = Date.now();
 
 function randomBooleanValue(num) {
   return num % 2 === 0;
@@ -20,7 +20,7 @@ let id = -1;
 // make 10 million records
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 10;
+  let i = 10000000;
   write();
   function write() {
     let ok = true;
@@ -34,13 +34,13 @@ function writeOneMillionTimes(writer, encoding, callback) {
       const value_score = generateRandomNumberBetween(0, 5);
       const would_recommend = randomBooleanValue(generateRandomNumberBetween(1, 100));
       const dined_on_date = faker.date.between('11/1/2018', '1/31/2019');
-      
+
       id += 1;
       i -= 1;
 
       let toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
 
-      if (i === 9) {
+      if (i === 9999999) {
         toWrite = 'id,user_id,restaurant_id,review_text,overall_score,food_score,ambience_score,value_score,would_recommend,dined_on_date\n';
       }
       if (i === 0) {
@@ -60,12 +60,9 @@ function writeOneMillionTimes(writer, encoding, callback) {
   }
 }
 
-const wrapped = performance.timerify(writeOneMillionTimes);
 
-const obs = new PerformanceObserver((list) => {
-  console.log(list.getEntries()[0].duration);
-  obs.disconnect();
+writeOneMillionTimes(file, 'utf-8', () => {
+  file.end();
+  const stop = Date.now() - start;
+  console.log('Runtime: ', stop);
 });
-obs.observe({ entryTypes: ['function'] });
-
-wrapped(file, 'utf-8', () => { file.end(); });

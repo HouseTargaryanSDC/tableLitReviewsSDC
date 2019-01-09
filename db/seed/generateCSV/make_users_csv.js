@@ -1,16 +1,17 @@
 const faker = require('faker');
 const path = require('path');
 const fs = require('fs');
-const { performance, PerformanceObserver } = require('perf_hooks');
+
 
 const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/users_table.csv'));
 
 let id = -1;
+const start = Date.now();
 
 // make 1 million records
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 10;
+  let i = 1000000;
   write();
   function write() {
     let ok = true;
@@ -25,7 +26,7 @@ function writeOneMillionTimes(writer, encoding, callback) {
 
       let toWrite = `${id},${name},${user_initials},${faker.address.city()}` + '\n';
 
-      if (i === 9) {
+      if (i === 999999) {
         toWrite = 'id,user_name,user_initials,user_city \n';
       }
       if (i === 0) {
@@ -45,12 +46,9 @@ function writeOneMillionTimes(writer, encoding, callback) {
   }
 }
 
-const wrapped = performance.timerify(writeOneMillionTimes);
 
-const obs = new PerformanceObserver((list) => {
-  console.log(list.getEntries()[0].duration);
-  obs.disconnect();
+writeOneMillionTimes(file, 'utf-8', () => {
+  file.end();
+  const stop = Date.now() - start;
+  console.log('Runtime: ', stop);
 });
-obs.observe({ entryTypes: ['function'] });
-
-wrapped(file, 'utf-8', () => { file.end(); });
