@@ -10,7 +10,7 @@ let start = Date.now();
 // make 1 million records
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 100000;
+  let i = 1000000;
   write();
   function write() {
     let ok = true;
@@ -21,7 +21,7 @@ function writeOneMillionTimes(writer, encoding, callback) {
       const name = faker.company.companyName().split(',').join('');
       let toWrite = `${id}, ${name},` + '\n';
 
-      if (i === 99999) {
+      if (i === 999999) {
         toWrite = 'id,restaurant_name \n';
       }
       if (i === 0) {

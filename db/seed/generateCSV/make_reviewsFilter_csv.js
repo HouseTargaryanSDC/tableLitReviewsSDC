@@ -1,8 +1,7 @@
-const faker = require('faker');
 const path = require('path');
 const fs = require('fs');
 
-const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/reviews_table.csv'));
+const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/reviewsFilters_table.csv'));
 
 const start = Date.now();
 
@@ -16,6 +15,7 @@ function generateRandomNumberBetween(beg, end) {
 
 
 let id = -1;
+const filters = ['Burgers', 'Burritos', 'Pizzas', 'Tacos', 'Sandwiches'];
 
 // make 10 million records
 
@@ -25,23 +25,15 @@ function writeOneMillionTimes(writer, encoding, callback) {
   function write() {
     let ok = true;
     do {
-      const user_id = generateRandomNumberBetween(1, 1000000);
       const restaurant_id = generateRandomNumberBetween(1, 10000000);
-      const review_text = faker.lorem.sentences(6);
-      const overall_score = generateRandomNumberBetween(0, 5);
-      const food_score = generateRandomNumberBetween(0, 5);
-      const ambience_score = generateRandomNumberBetween(0, 5);
-      const value_score = generateRandomNumberBetween(0, 5);
-      const would_recommend = randomBooleanValue(generateRandomNumberBetween(1, 100));
-      const dined_on_date = faker.date.between('11/1/2018', '1/31/2019');
-
+      const review_filter = filters[i % 5];
       id += 1;
       i -= 1;
 
-      let toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
+      let toWrite = `${id},${restaurant_id},${review_filter}` + '\n';
 
       if (i === 9999999) {
-        toWrite = 'id,user_id,restaurant_id,review_text,overall_score,food_score,ambience_score,value_score,would_recommend,dined_on_date\n';
+        toWrite = 'id,restaurant_id,review_filter\n';
       }
       if (i === 0) {
         // last time!

@@ -11,7 +11,7 @@ CREATE TABLE restaurants (
   restaurant_name VARCHAR(255),
   PRIMARY KEY(id)
 );
-
+t
 INSERT INTO restaurants (restaurant_name) VALUES ("Bestia");
 INSERT INTO restaurants (restaurant_name) VALUES ("Republique");
 INSERT INTO restaurants (restaurant_name) VALUES ("Patina");
