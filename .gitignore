@@ -62,4 +62,4 @@ typings/
 
 db/seed/seedCSV
 
-db/config.js
+./db/config.js

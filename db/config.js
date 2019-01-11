@@ -4,3 +4,4 @@ module.exports = {
   password: 'password',
   database: 'tableit_reviews',
 };
+// test
