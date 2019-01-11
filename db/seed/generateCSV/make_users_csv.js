@@ -5,13 +5,18 @@ const fs = require('fs');
 
 const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/users_table.csv'));
 
+
+// Use the code below to generate a csv file that contains n records
+// formatted for the db schema
+
 let id = -1;
 const start = Date.now();
 
 // make 1 million records
+// change i in writeOneMillionTimes to equal the number of records you want in th csv file
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 1000000;
+  let i = 1000001;
   write();
   function write() {
     let ok = true;
@@ -26,8 +31,8 @@ function writeOneMillionTimes(writer, encoding, callback) {
 
       let toWrite = `${id},${name},${user_initials},${faker.address.city()}` + '\n';
 
-      if (i === 999999) {
-        toWrite = 'id,user_name,user_initials,user_city \n';
+      if (i === 1000000) {
+        toWrite = 'id,username,user_initials,user_city \n';
       }
       if (i === 0) {
         // last time!

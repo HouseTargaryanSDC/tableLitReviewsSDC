@@ -2,7 +2,10 @@ const faker = require('faker');
 const path = require('path');
 const fs = require('fs');
 
-const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/reviewsDetail_table.csv'));
+const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/reviewsDetail10_table.csv'));
+
+// Use the code below to generate a csv file that contains n records
+// formatted for the db schema
 
 const start = Date.now();
 
@@ -14,33 +17,48 @@ function generateRandomNumberBetween(beg, end) {
   return Math.floor((Math.random() * (end - beg + 1)) + beg);
 }
 
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
 
-let id = -1;
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+
+let id = -1 + 8000000;
+
 
 // make 10 million records
+// change i in writeOneMillionTimes to equal the number of records you want in th csv file
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 10000000;
+  let i = 2000001;
   write();
   function write() {
     let ok = true;
     do {
       const user_id = generateRandomNumberBetween(1, 1000000);
-      const restaurant_id = generateRandomNumberBetween(1, 10000000);
+      const restaurant_id = generateRandomNumberBetween(900001, 1000000);
       const review_text = faker.lorem.sentences(6);
       const overall_score = generateRandomNumberBetween(0, 5);
       const food_score = generateRandomNumberBetween(0, 5);
+      const service_score = generateRandomNumberBetween(0, 5);
       const ambience_score = generateRandomNumberBetween(0, 5);
       const value_score = generateRandomNumberBetween(0, 5);
-      const would_recommend = randomBooleanValue(generateRandomNumberBetween(1, 100));
-      const dined_on_date = faker.date.between('11/1/2018', '1/31/2019');
+      const would_recommend = generateRandomNumberBetween(0, 1);
+      const dined_on_date = formatDate(faker.date.between('11/1/2018', '1/31/19'));
 
       id += 1;
       i -= 1;
 
-      let toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
+      let toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${service_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
 
-      if (i === 9999999) {
+      if (i === 2000000) {
         toWrite = 'id,user_id,restaurant_id,review_text,overall_score,food_score,ambience_score,value_score,would_recommend,dined_on_date\n';
       }
       if (i === 0) {

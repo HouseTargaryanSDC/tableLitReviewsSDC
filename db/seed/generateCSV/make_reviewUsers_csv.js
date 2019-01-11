@@ -15,11 +15,15 @@ function generateRandomNumberBetween(beg, end) {
 }
 
 
+// Use the code below to generate a csv file that contains n records
+// formatted for the db schema
+
 let id = 0;
 const start = Date.now();
 
 
 // make 10 million records
+// change i in writeOneMillionTimes to equal the number of records you want in th csv file
 
 function writeOneMillionTimes(writer, encoding, callback) {
   let i = 10000000;

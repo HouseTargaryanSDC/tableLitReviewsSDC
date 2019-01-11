@@ -9,11 +9,10 @@
     "seed--old": "node db/seed/buildSeedQuery.js && mysql -u root < db/seed/seed.sql",
     "test": "jest",
     "make-rest": "node db/seed/generateCSV/make_restaurants_csv.js",
-    "make-revs": "node db/seed/generateCSV/make_reviewsDetail_csv.js",
+    "make-revs90": "node db/seed/generateCSV/make_reviewsDetail90_csv.js",
+    "make-revs10": "node db/seed/generateCSV/make_reviewsDetail10_csv.js",
     "make-users": "node db/seed/generateCSV/make_users_csv.js",
-    "make-revFilt": "node db/seed/generateCSV/make_reviewsFilter_csv.js",
-    "make-revUse": "node db/seed/generateCSV/make_reviewUsers_csv.js",
-    "seed-mysql": "mysql -u root -p < db/seed/dbSeedScripts/tableit_reviews.sql"
+    "make-revFilt": "node db/seed/generateCSV/make_reviewsFilter_csv.js"
   },
   "repository": {
     "type": "git",

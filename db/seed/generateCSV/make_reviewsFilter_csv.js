@@ -3,6 +3,10 @@ const fs = require('fs');
 
 const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/reviewsFilters_table.csv'));
 
+
+// Use the code below to generate a csv file that contains n records
+// formatted for the db schema
+
 const start = Date.now();
 
 function randomBooleanValue(num) {
@@ -15,24 +19,25 @@ function generateRandomNumberBetween(beg, end) {
 
 
 let id = -1;
-const filters = ['Burgers', 'Burritos', 'Pizzas', 'Tacos', 'Sandwiches'];
+const filters = 'Burgers Burritos Pizzas Tacos Sandwiches';
 
-// make 10 million records
+// make 1 million records
+// change i in writeOneMillionTimes to equal the number of records you want in th csv file
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 10000000;
+  let i = 1000001;
   write();
   function write() {
     let ok = true;
     do {
-      const restaurant_id = generateRandomNumberBetween(1, 10000000);
-      const review_filter = filters[i % 5];
+
+      const review_filter = filters;
       id += 1;
       i -= 1;
 
-      let toWrite = `${id},${restaurant_id},${review_filter}` + '\n';
+      let toWrite = `${id},${id},${review_filter}` + '\n';
 
-      if (i === 9999999) {
+      if (i === 1000000) {
         toWrite = 'id,restaurant_id,review_filter\n';
       }
       if (i === 0) {

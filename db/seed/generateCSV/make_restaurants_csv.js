@@ -2,15 +2,20 @@ const faker = require('faker');
 const path = require('path');
 const fs = require('fs');
 
+// Use the code below to generate a csv file that contains n records
+// formatted for the db schema
+
 
 const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/restaurants_table.csv'));
 
 let id = -1;
 let start = Date.now();
-// make 1 million records
+
+// make 1 million records!
+// change i in writeOneMillionTimes to equal the number of records you want in th csv file
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 1000000;
+  let i = 1000001;
   write();
   function write() {
     let ok = true;
@@ -21,7 +26,7 @@ function writeOneMillionTimes(writer, encoding, callback) {
       const name = faker.company.companyName().split(',').join('');
       let toWrite = `${id}, ${name},` + '\n';
 
-      if (i === 999999) {
+      if (i === 1000000) {
         toWrite = 'id,restaurant_name \n';
       }
       if (i === 0) {
