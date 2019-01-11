@@ -30,14 +30,14 @@ class App extends Component {
   };
 
   getAllReviews = () => {
-    return Axios.get(`http://3.86.82.182:9001/api/reviews/all/${this.state.restaurantId}`)
+    return Axios.get(`http://localhost:9001/api/reviews/all/${this.state.restaurantId}`)
       .then(({data}) => {
         this.setState({ reviews: data });
       });
   };
 
   getReviewsSummary = () => {
-    return Axios.get(`http://3.86.82.182:9001/api/reviews/summary/${this.state.restaurantId}`)
+    return Axios.get(`http://localhost:9001/api/reviews/summary/${this.state.restaurantId}`)
       .then(({data}) => {
         this.setState({ reviewsSummary: data });
       });
