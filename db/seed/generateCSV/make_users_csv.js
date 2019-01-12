@@ -12,11 +12,11 @@ const file = fs.createWriteStream(path.join(__dirname, '../seedCSV/users_table.c
 let id = -1;
 const start = Date.now();
 
-// make 1 million records
+// make 10 million records
 // change i in writeOneMillionTimes to equal the number of records you want in th csv file
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 1000001;
+  let i = 10000001;
   write();
   function write() {
     let ok = true;
@@ -31,7 +31,7 @@ function writeOneMillionTimes(writer, encoding, callback) {
 
       let toWrite = `${id},${name},${user_initials},${faker.address.city()}` + '\n';
 
-      if (i === 1000000) {
+      if (i === 10000000) {
         toWrite = 'id,username,user_initials,user_city \n';
       }
       if (i === 0) {

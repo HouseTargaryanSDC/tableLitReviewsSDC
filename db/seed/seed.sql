@@ -1160,3 +1160,4 @@ SELECT
   'Moderate' noise_level
 FROM reviews_detail
 GROUP BY 1;
+

@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/hrla26-fec-opentable/martin-reviews#readme",
   "dependencies": {
+    "acorn": "^6.0.5",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",

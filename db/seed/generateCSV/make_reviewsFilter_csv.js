@@ -21,11 +21,11 @@ function generateRandomNumberBetween(beg, end) {
 let id = -1;
 const filters = 'Burgers Burritos Pizzas Tacos Sandwiches';
 
-// make 1 million records
+// make 10 million records
 // change i in writeOneMillionTimes to equal the number of records you want in th csv file
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 1000001;
+  let i = 10000001;
   write();
   function write() {
     let ok = true;
@@ -37,7 +37,7 @@ function writeOneMillionTimes(writer, encoding, callback) {
 
       let toWrite = `${id},${id},${review_filter}` + '\n';
 
-      if (i === 1000000) {
+      if (i === 10000000) {
         toWrite = 'id,restaurant_id,review_filter\n';
       }
       if (i === 0) {

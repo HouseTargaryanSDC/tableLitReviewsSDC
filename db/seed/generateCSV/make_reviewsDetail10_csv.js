@@ -30,20 +30,20 @@ function formatDate(date) {
 }
 
 
-let id = -1 + 8000000;
+let id = -1 + 80000000;
 
 
-// make 10 million records
+// make 20 million records
 // change i in writeOneMillionTimes to equal the number of records you want in th csv file
 
 function writeOneMillionTimes(writer, encoding, callback) {
-  let i = 2000001;
+  let i = 20000001;
   write();
   function write() {
     let ok = true;
     do {
-      const user_id = generateRandomNumberBetween(1, 1000000);
-      const restaurant_id = generateRandomNumberBetween(900001, 1000000);
+      const user_id = generateRandomNumberBetween(1, 10000000);
+      const restaurant_id = generateRandomNumberBetween(9000001, 10000000);
       const review_text = faker.lorem.sentences(6);
       const overall_score = generateRandomNumberBetween(0, 5);
       const food_score = generateRandomNumberBetween(0, 5);
@@ -58,7 +58,7 @@ function writeOneMillionTimes(writer, encoding, callback) {
 
       let toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${service_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
 
-      if (i === 2000000) {
+      if (i === 20000000) {
         toWrite = 'id,user_id,restaurant_id,review_text,overall_score,food_score,ambience_score,value_score,would_recommend,dined_on_date\n';
       }
       if (i === 0) {

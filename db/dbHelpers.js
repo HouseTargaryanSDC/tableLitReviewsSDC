@@ -2,28 +2,37 @@ const db = require('./index.js');
 
 
 module.exports = {
+  // getAllReviews: restaurantId => db.query(`
+  //   SELECT
+  //     rd.*,
+  //     u.username,
+  //     u.user_initials,
+  //     u.user_city,
+  //     a.user_total_reviews
+  //   FROM reviews_detail rd
+  //   JOIN users u
+  //     ON rd.user_id = u.id
+  //   JOIN (
+  //     SELECT
+  //       user_id,
+  //       count(*) user_total_reviews
+  //     FROM reviews_detail
+  //     GROUP BY user_id) a
+  //     ON rd.user_id = a.user_id
+  //   WHERE restaurant_id = ${restaurantId};    
+  // `),
   getAllReviews: restaurantId => db.query(`
     SELECT
-      rd.*,
-      u.username,
-      u.user_initials,
-      u.user_city,
-      a.user_total_reviews
+    rd.*,
+    u.username,
+    u.user_initials,
+    u.user_city,
+    u.user_total_reviews
     FROM reviews_detail rd
     JOIN users u
-      ON rd.user_id = u.id
-    JOIN (
-      SELECT
-        user_id,
-        count(*) user_total_reviews
-      FROM reviews_detail
-      GROUP BY user_id) a
-      ON rd.user_id = a.user_id
-    WHERE restaurant_id = ${restaurantId};    
+    ON rd.user_id = u.id
+    WHERE restaurant_id = ${restaurantId};
   `),
-  // getReviewsSummary: restaurantId => db.query(`
-  //   SELECT* FROM reviews_summary WHERE restaurant_id = ${restaurantId};
-  // `),
   getReviewsSummary: restaurantId => db.query(`SELECT restaurant_id, COUNT(*) total_reviews,
     CAST(AVG(overall_score) AS DECIMAL(2,1)) avg_overall,
     CAST(AVG(food_score) AS DECIMAL(2,1)) avg_food,
@@ -43,22 +52,3 @@ module.exports = {
     WHERE restaurant_id = ${restaurantId}
     GROUP BY 1`),
 };
-
-
-// SELECT
-// rd.*,
-// u.username,
-// u.user_initials,
-// u.user_city,
-// a.user_total_reviews
-// FROM reviews_detail rd
-// JOIN users u
-// ON rd.user_id = u.id
-// JOIN (
-// SELECT
-//   user_id,
-//   count(*) user_total_reviews
-// FROM reviews_detail
-// GROUP BY user_id) a
-// ON rd.user_id = a.user_id
-// WHERE restaurant_id = ${restaurantId};  
