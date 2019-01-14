@@ -30,7 +30,7 @@ function formatDate(date) {
 }
 
 
-let id = -1 + 80000000;
+let id = 80000000;
 
 
 // make 20 million records
@@ -38,11 +38,11 @@ let id = -1 + 80000000;
 
 function writeOneMillionTimes(writer, encoding, callback) {
   let i = 20000001;
+  let user_id = 800001;
   write();
   function write() {
     let ok = true;
     do {
-      const user_id = generateRandomNumberBetween(1, 10000000);
       const restaurant_id = generateRandomNumberBetween(9000001, 10000000);
       const review_text = faker.lorem.sentences(6);
       const overall_score = generateRandomNumberBetween(0, 5);
@@ -56,11 +56,15 @@ function writeOneMillionTimes(writer, encoding, callback) {
       id += 1;
       i -= 1;
 
+      if (i % 10 === 0) {
+        user_id += 1;
+      }
+
       let toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${service_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
 
-      if (i === 20000000) {
-        toWrite = 'id,user_id,restaurant_id,review_text,overall_score,food_score,ambience_score,value_score,would_recommend,dined_on_date\n';
-      }
+      // if (i === 99) {
+      //   toWrite = 'id,user_id,restaurant_id,review_text,overall_score,food_score,ambience_score,value_score,would_recommend,dined_on_date\n';
+      // }
       if (i === 0) {
         // last time!
         writer.write(toWrite, encoding, callback);

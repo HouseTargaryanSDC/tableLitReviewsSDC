@@ -29,10 +29,10 @@ function writeOneMillionTimes(writer, encoding, callback) {
       id += 1;
       i -= 1;
 
-      let toWrite = `${id},${name},${user_initials},${faker.address.city()}` + '\n';
+      let toWrite = `${id},${name},${user_initials},${faker.address.city()},10` + '\n';
 
       if (i === 10000000) {
-        toWrite = 'id,username,user_initials,user_city \n';
+        toWrite = 'id,username,user_initials,user_city,user_total_reviews \n';
       }
       if (i === 0) {
         // last time!

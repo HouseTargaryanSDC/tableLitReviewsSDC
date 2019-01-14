@@ -37,12 +37,11 @@ let id = -1;
 
 function writeOneMillionTimes(writer, encoding, callback) {
   let i = 80000001;
-
+  let user_id = 0;
   write();
   function write() {
     let ok = true;
     do {
-      const user_id = generateRandomNumberBetween(1, 10000000);
       const restaurant_id = generateRandomNumberBetween(1, 9000000);
       const review_text = faker.lorem.sentences(6);
       const overall_score = generateRandomNumberBetween(0, 5);
@@ -55,6 +54,10 @@ function writeOneMillionTimes(writer, encoding, callback) {
 
       id += 1;
       i -= 1;
+
+      if (i % 10 === 0) {
+        user_id += 1;
+      }
 
       let toWrite = `${id},${user_id},${restaurant_id},${review_text},${overall_score},${food_score},${service_score},${ambience_score},${value_score},${would_recommend},${dined_on_date}` + '\n';
 
