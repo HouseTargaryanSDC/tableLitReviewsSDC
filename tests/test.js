@@ -8,6 +8,9 @@ describe('/GET /api/reviews', () => {
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual(expect.arrayContaining([expect.anything()]));
       })
+      .catch((err) => {
+        console.log('error in jest -->', err);
+      });
   ));
 });
 
@@ -34,5 +37,8 @@ describe('GET /api/reviews/summary', () => {
           total_reviews: expect.any(Number),
         }));
       })
+      .catch((err) => {
+        console.log('error in jest -->', err);
+      });
   ));
 });
