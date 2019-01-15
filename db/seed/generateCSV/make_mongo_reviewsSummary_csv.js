@@ -99,3 +99,28 @@ writeOneMillionTimes(file, 'utf-8', () => {
 
 
 // db.reviews_detail.aggregate([{$match: { restaurant_id: 988682 }},{ $group: avg_overall: { $avg: "$overall_score"}], avg_food: { $avg: "$food_score"}, avg_service: { $avg: "$service_score"}, avg_ambience: { $avg: "$ambience_score"}, avg_value: { $avg: "$value_score"}, pct_recommend: { $divide: [{ $sum: "$would_recommend"},{ $count: "_id"}]}, review_filter_1: "Burgers", review_filter_2: "Burritos", review_filter_3: "Pizzas", review_filter_4: "Tacos", review_filter_5: "Sandwiches", loved_for_1: "Sauces", loved_for_2: "Wine", noise_level: "Moderate" }}]);
+
+
+db.reviews_detail.aggregate(
+  { 
+    $match: {
+      restaurant_id: 900000
+    }
+  },
+  {
+    $count: "total_reviews"
+  },
+  {
+    $group: {
+      _id: "$user_id",
+    }
+  }
+)
+
+avg_overall: {
+  $avg: "$over_all"
+}
+
+{
+  $count: "total_reviews"
+},
