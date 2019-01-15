@@ -10,7 +10,7 @@ function generateRandomNumberBetween(beg, end) {
 let ids = '';
 
 for (let i = 0; i < 25; i += 1) {
-  ids += ' ' + (generateRandomNumberBetween(9000001, 10000000));
+  ids += ' ' + (generateRandomNumberBetween(850001, 1000000));
 }
 
 console.log(ids);

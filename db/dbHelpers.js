@@ -52,3 +52,4 @@ module.exports = {
     WHERE restaurant_id = ${restaurantId}
     GROUP BY 1`),
 };
+
