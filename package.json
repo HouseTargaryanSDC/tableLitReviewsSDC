@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack -w",
-    "start": "node server/index.js",
+    "start": "nodemon server/index.js",
     "seed--old": "node db/seed/buildSeedQuery.js && mysql -u root < db/seed/seed.sql",
     "test": "jest --detectOpenHandles",
     "make-rest": "node db/seed/generateCSV/make_restaurants_csv.js",
     "make-revs90": "node db/seed/generateCSV/make_reviewsDetail90_csv.js",
     "make-revs10": "node db/seed/generateCSV/make_reviewsDetail10_csv.js",
-    "make-users": "node db/seed/generateCSV/make_users_csv.js",
+    "make-users": "node db/seed/generateCSV/make_mongo_users_csv.js",
     "make-revFilt": "node db/seed/generateCSV/make_reviewsFilter_csv.js",
     "make-mongo": "node db/seed/generateCSV/make_mongo_allReviews_csv.js"
   },
@@ -37,6 +37,7 @@
     "faker": "^4.1.0",
     "mongoose": "^5.4.4",
     "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
     "mysql-promise": "^5.0.0",
     "path": "^0.12.7",
     "react": "^16.6.3",

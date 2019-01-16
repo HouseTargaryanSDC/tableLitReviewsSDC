@@ -7,3 +7,8 @@ node_js:
 install:
   - npm install
 
+scripts:
+  - npm run build && sleep 20
+  - npm start && sleep 20
+
+

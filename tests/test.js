@@ -10,7 +10,7 @@ describe('/GET /api/reviews', () => {
       })
       .catch((err) => {
         console.log('error in jest -->', err);
-      });
+      })
   ));
 });
 
@@ -39,6 +39,6 @@ describe('GET /api/reviews/summary', () => {
       })
       .catch((err) => {
         console.log('error in jest -->', err);
-      });
+      })
   ));
 });
