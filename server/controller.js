@@ -21,7 +21,6 @@ module.exports = {
       const { restaurantId } = req.params;
       const restaurant_id = restaurantId;
       dbHelpers.getReviewsSummary(restaurant_id, (data) => {
-        console.log('this is summary data -->', data);
         const {
           _id,
           total_reviews,
@@ -41,12 +40,17 @@ module.exports = {
           avg_ambience,
           avg_value,
           pct_recommend: ((total_recommend / total_reviews) * 100).toFixed(2),
-          reviewFilter: 'Burgers Burritos Pizzas Tacos Sandwiches',
+          reviewsFilters: 'Burgers Burritos Pizzas Tacos Sandwiches'.split(' '),
+          review_filter_1: 'Burgers',
+          review_filter_2: 'Burritos',
+          review_filter_3: 'Pizzas',
+          review_filter_4: 'Tacos',
+          review_filter_5: 'Sandwiches',
           loved_for_1: 'Sauces',
           loved_for_2: 'Wine',
           noise_level: 'Moderate',
         };
-        // for (let i = 1; i <= 5; i += 1) { delete reviewsSummary[`review_filter_${i}`]; }
+        for (let i = 1; i <= 5; i += 1) { delete reviewsSummary[`review_filter_${i}`]; }
         res.status(200).send(reviewsSummary);
       });
     },
@@ -94,6 +98,5 @@ const extendWithTotals = (ids, arr) => {
     };
     holder.push(newObj);
   }
-  console.log('holder -->', holder);
   return holder;
 };

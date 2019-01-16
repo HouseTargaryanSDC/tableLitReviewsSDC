@@ -7,8 +7,16 @@ node_js:
 install:
   - npm install
 
+services:
+  -mongodb
+
 scripts:
-  - npm run build && sleep 20
-  - npm start && sleep 20
+  - webpack
+  - node server/index.js
+  - npm test
+
+after_scripts:
+  - sudo service mongodb stop
+
 
 
