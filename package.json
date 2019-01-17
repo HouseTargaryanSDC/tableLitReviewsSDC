@@ -13,7 +13,8 @@
     "make-revs10": "node db/seed/generateCSV/make_reviewsDetail10_csv.js",
     "make-users": "node db/seed/generateCSV/make_mongo_users_csv.js",
     "make-revFilt": "node db/seed/generateCSV/make_reviewsFilter_csv.js",
-    "make-mongo": "node db/seed/generateCSV/make_mongo_allReviews_csv.js"
+    "make-mongo": "node db/seed/generateCSV/make_mongo_allReviews_csv.js",
+    "cluster": "pm2 start process.yml"
   },
   "repository": {
     "type": "git",

@@ -70,10 +70,10 @@ function writeOneMillionTimes(writer, encoding, callback) {
       if (i <= 1999999) {
         restaurant_id = generateRandomNumberBetween(900000, 1000000);
       }
-      let toWrite = `${user_id},${username},${user_initials},${restaurant_id},${restaurant_name},${review_text},${overall_score},${food_score},${service_score},${ambience_score},${value_score},${would_recommend},10,${dined_on_date},${reviewFilter}` + '\n';
+      let toWrite = `${user_id},${username},${user_initials},${restaurant_id},${restaurant_name},${review_text},${overall_score},${food_score},${service_score},${ambience_score},${value_score},${would_recommend},${dined_on_date},${reviewFilter}` + '\n';
 
       if (i === 10000000) {
-        toWrite = 'user_id,username,user_initials,restaurant_id,restaurant_name,review_text,overall_score,food_score,service_score,ambience_score,value_score,would_recommend,user_total_reviews,dined_on_date,review_filters\n';
+        toWrite = 'user_id,username,user_initials,restaurant_id,restaurant_name,review_text,overall_score,food_score,service_score,ambience_score,value_score,would_recommend,dined_on_date,review_filters\n';
       }
       if (i === 0) {
         // last time!
@@ -93,8 +93,12 @@ function writeOneMillionTimes(writer, encoding, callback) {
 }
 
 
-writeOneMillionTimes(file, 'utf-8', () => {
-  file.end();
-  const stop = Date.now() - start;
-  console.log('Runtime: ', stop);
+writeOneMillionTimes(file, 'utf-8', (err) => {
+  if (err) {
+    console.log('error writing -->', err);
+  } else {
+    file.end();
+    const stop = Date.now() - start;
+    console.log('Runtime: ', stop);
+  }
 });
