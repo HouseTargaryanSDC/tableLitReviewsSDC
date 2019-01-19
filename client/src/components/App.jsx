@@ -37,7 +37,12 @@ class App extends Component {
   getAllReviews = () => {
     return Axios.get(`http://localhost:9001/api/reviews/all/${this.state.restaurantId}`)
       .then(({data}) => {
-        console.log('--> fetched', data);
+        // console.log('--> fetched', data);
+        data.forEach((review) => {
+          review.user_total_reviews = review.user_data.user_total_reviews;
+          delete review.user_data;
+        });
+        // console.log(data);
         this.setState({ reviews: data });
       });
   };

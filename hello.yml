@@ -1,0 +1,21 @@
+config:
+  target: 'http://localhost:9001'
+  processor: './randomId.js'
+  phases:
+    - duration: 30
+      arrivalRate: 10
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+scenarios:
+  - flow:
+    - get:
+        url: "/api/reviews/all/{{ restaurant_id }}"
+        beforeRequest: "generateRandomNumberBetween"
+    # - post:
+    #     url: "/api/reviews/all/{{ restaurant_id }}"
+    #     beforeRequest: ["generateRandomNumberBetween", "setBody"]
+    # - get:
+    #     url: "/api/reviews/summary/{{ restaurant_id }}"
+    #     beforeRequest: "generateRandomNumberBetween"
+        

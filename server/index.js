@@ -1,8 +1,8 @@
+require('newrelic');
 const http = require('http');
 const dotenv = require('dotenv');
 const app = require('./app.js');
-// const cluster = require('cluster');
-// const numCPUs = require('os').cpus().length;
+
 
 dotenv.config();
 

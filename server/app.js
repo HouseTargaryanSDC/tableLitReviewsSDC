@@ -16,3 +16,6 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use('/api', router);
 
 module.exports = app;
+
+
+// module.exports = (request, response) => {};

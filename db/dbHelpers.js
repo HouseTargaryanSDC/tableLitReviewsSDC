@@ -1,29 +1,34 @@
 const { Review, User } = require('./index.js');
 
 module.exports = {
-  getAllReviews: (restaurant_id, cb) => {
-    Review.find({ restaurant_id }, (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        const userIds = getUserIds(data);
-        User.aggregate([{
-          $match: {
-            $or: userIds,
-          },
-        }], (error, results) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('ressssss -->', results);
-            cb(data, results);
-          }
-        });
+  getAllReviews: (restaurantId) => {
+    console.log('here!')
+    return Review.aggregate([
+      {
+        $lookup:
+        {
+          from: 'users',
+          localField: 'user_id',
+          foreignField: 'user_id',
+          as: 'user_data'
+        }
+      },
+      {
+        $match: {restaurant_id: Number(restaurantId) }
+      },
+      {
+        $unwind: '$user_data'
+      },
+      {
+        $project: {
+          _id: 0,
+          'user_data._id': 0
+        }
       }
-    });
+    ]);
   },
-  getReviewsSummary: (rest_id, cb) => {
-    Review.aggregate([
+  getReviewsSummary: (rest_id) => {
+    return Review.aggregate([
       {
         $match: {
           restaurant_id: Number(rest_id),
@@ -57,9 +62,7 @@ module.exports = {
           },
         },
       },
-    ])
-      .then(data => cb(data))
-      .catch(err => console.log('err getting summary from db -->', err));
+    ]);
   },
   addReview: (newReview, cb) => {
     console.log('user -->', newReview.user_id);

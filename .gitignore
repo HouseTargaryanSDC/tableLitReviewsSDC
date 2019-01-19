@@ -63,3 +63,5 @@ typings/
 db/seed/seedCSV
 
 db/config.js
+
+newrelic.js
