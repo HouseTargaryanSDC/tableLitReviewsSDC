@@ -4,8 +4,15 @@
 const mongoose = require('mongoose');
 const config = require('./config.js');
 
-mongoose.connect('mongodb://localhost/tableit_reviews', {
+mongoose.connect('mongodb://54.215.253.191:27017/tableit_reviews', {
   useNewUrlParser: true,
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('successfully connected to db!');
+});
+mongoose.connection.on('error', (err) => {
+  console.log('error connecting to db -->', err);
 });
 
 const reviewSchema = new mongoose.Schema({

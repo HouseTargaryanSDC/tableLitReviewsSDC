@@ -3,19 +3,35 @@ config:
   processor: './randomId.js'
   phases:
     - duration: 30
-      arrivalRate: 10
+      arrivalRate: 1000
   defaults:
     headers:
       x-my-service-auth: '987401838271002188298567'
 scenarios:
   - flow:
-    - get:
-        url: "/api/reviews/all/{{ restaurant_id }}"
-        beforeRequest: "generateRandomNumberBetween"
-    # - post:
+    # - get:
     #     url: "/api/reviews/all/{{ restaurant_id }}"
-    #     beforeRequest: ["generateRandomNumberBetween", "setBody"]
+    #     beforeRequest: "generateRandomNumberBetween"
     # - get:
     #     url: "/api/reviews/summary/{{ restaurant_id }}"
     #     beforeRequest: "generateRandomNumberBetween"
-        
+    - post:
+        url: "/api/reviews/all/{{ restaurant_id }}"
+        beforeRequest: ["generateRandomNumberBetween", "setBody"]
+        json:
+          newReview: 
+            user_id: 123456
+            username: "JanAbernathy"
+            user_initials: "JA"
+            restaurant_id: 918861
+            restaurant_name: "Miller  Douglas and Mertz"
+            review_text: "Minima sequi voluptatum. Delectus fuga est est doloremque maxime modi voluptatem. Iure dolore qui. Dolorem tempora eligendi reprehenderit quis cumque nemo. Ut porro recusandae nihil in aliquam. Reprehenderit nulla quia nihil sit dolor enim dolorum sint deserunt."
+            overall_score: 4
+            food_score: 0
+            service_score: 5
+            ambience_score: 5
+            value_score: 2
+            would_recommend: "false"
+            dined_on_date: "2018-12-02T00:00:00.000Z"
+            review_filters: "undefined"
+

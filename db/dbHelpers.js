@@ -22,7 +22,8 @@ module.exports = {
       {
         $project: {
           _id: 0,
-          'user_data._id': 0
+          'user_data._id': 0,
+          'user_data.user_id': 0
         }
       }
     ]);
@@ -65,11 +66,9 @@ module.exports = {
     ]);
   },
   addReview: (newReview, cb) => {
-    console.log('user -->', newReview.user_id);
     User.find({ user_id: newReview.user_id })
       .then((data) => {
         const total = data[0].user_total_reviews + 1;
-        console.log('user total -->', data);
         User.update({ user_id: newReview.user_id }, { user_total_reviews: total })
           .then(() => {
             Review.create(newReview)
@@ -141,13 +140,13 @@ module.exports = {
 //     GROUP BY 1`),
 // };
 
-const getUserIds = (arr) => {
-  const ids = [];
-  for (let i = 0; i < arr.length; i += 1) {
-    ids.push({ user_id: arr[i].user_id });
-  }
-  return ids;
-};
+// const getUserIds = (arr) => {
+//   const ids = [];
+//   for (let i = 0; i < arr.length; i += 1) {
+//     ids.push({ user_id: arr[i].user_id });
+//   }
+//   return ids;
+// };
 
 
     // Review.find({ restaurant_id })
@@ -166,3 +165,5 @@ const getUserIds = (arr) => {
         // });
     //   })
     //   .catch(err => console.log('error getting from Review -->', err));
+
+  

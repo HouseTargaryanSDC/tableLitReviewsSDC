@@ -7,7 +7,7 @@ const generateRandomNumberBetween = (requestParams, context, events, next) => {
 const setBody = (requestParams, context, events, next) => {
   requestParams.json = {   
     "newReview": {
-      "user_id": 123456,
+      "user_id": Math.floor((Math.random() * (1000000 - 1 + 1)) + 1),
        "username": "JanAbernathy",
        "user_initials": "JA",
        "restaurant_id": Math.floor((Math.random() * (1000000 - 900000 + 1)) + 900000),
