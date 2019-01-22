@@ -83,6 +83,12 @@ module.exports = {
       })
       .catch((err) => { console.log(err); });
   },
+  updateReview: (newReview, cb) => {
+    //update review
+  },
+  deleteReview: (reviewId) => {
+    //delete review
+  },
 };
 
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack -w",
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
     "seed--old": "node db/seed/buildSeedQuery.js && mysql -u root < db/seed/seed.sql",
     "test": "jest --detectOpenHandles",
     "make-rest": "node db/seed/generateCSV/make_restaurants_csv.js",

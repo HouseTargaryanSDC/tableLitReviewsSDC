@@ -4,7 +4,7 @@
 const mongoose = require('mongoose');
 const config = require('./config.js');
 
-mongoose.connect('mongodb://54.215.253.191:27017/tableit_reviews', {
+mongoose.connect('mongodb://13.57.183.178:27017/tableit_reviews', {
   useNewUrlParser: true,
 });
 
