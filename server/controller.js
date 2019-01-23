@@ -6,7 +6,6 @@ module.exports = {
       const { restaurantId } = req.params;
       dbHelpers.getAllReviews(restaurantId)
         .then((data) => {
-          // const { user_total_reviews } = data.user_data;
           res.status(200).send(data);
         })
         .catch((err) => {
@@ -46,16 +45,16 @@ module.exports = {
             avg_value: avg_value.toFixed(1),
             pct_recommend: ((total_recommend / total_reviews) * 100).toFixed(2),
             reviewsFilters: 'Burgers Burritos Pizzas Tacos Sandwiches'.split(' '),
-            // review_filter_1: 'Burgers',
-            // review_filter_2: 'Burritos',
-            // review_filter_3: 'Pizzas',
-            // review_filter_4: 'Tacos',
-            // review_filter_5: 'Sandwiches',
+            review_filter_1: 'Burgers',
+            review_filter_2: 'Burritos',
+            review_filter_3: 'Pizzas',
+            review_filter_4: 'Tacos',
+            review_filter_5: 'Sandwiches',
             loved_for_1: 'Sauces',
             loved_for_2: 'Wine',
             noise_level: 'Moderate',
           };
-          // for (let i = 1; i <= 5; i += 1) { delete reviewsSummary[`review_filter_${i}`]; }
+          for (let i = 1; i <= 5; i += 1) { delete reviewsSummary[`review_filter_${i}`]; }
           res.status(200).send(reviewsSummary);
         })
         .catch((err) => {
