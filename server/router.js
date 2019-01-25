@@ -13,4 +13,12 @@ router
 router
   .route('/reviews/filters/:restaurantId');
 
+router
+  .route('/reviews/update')
+  .put(controller.review.put);
+
+router
+  .route('/reviews/delete')
+  .delete(controller.review.delete);
+
 module.exports = router;

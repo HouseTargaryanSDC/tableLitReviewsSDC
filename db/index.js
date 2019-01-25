@@ -3,8 +3,8 @@
 // db.configure(config);
 const mongoose = require('mongoose');
 const config = require('./config.js');
-
-mongoose.connect('mongodb://52.53.202.22:27017/tableit_reviews', {
+// 54.241.136.203:27017
+mongoose.connect('mongodb://54.241.136.203:27017/tableit_reviews', {
   useNewUrlParser: true,
 });
 

@@ -62,6 +62,30 @@ module.exports = {
         });
     },
   },
+  review: {
+    put: (req, res) => {
+      const { reviewId, newReviewText } = req.body;
+      dbHelpers.updateReview(reviewId, newReviewText)
+      .then(() => {
+        res.status(202).send('update successful!');
+      })
+      .catch((err) => {
+        console.log('error updating review', err);
+        res.status(500).send('error updating review!')
+      });
+    },
+    delete: (req, res) => {
+      const { reviewId } = req.body;
+      dbHelpers.deleteReview(reviewId)
+      .then(() => {
+        res.status(204).send('deleted review')
+      })
+      .catch((err) => {
+        console.log('error deleting from db', err);
+        res.status(500).send('error deleting review!');
+      })
+    },
+  },
 };
 
 // const extendWithTotals = (ids, arr) => {

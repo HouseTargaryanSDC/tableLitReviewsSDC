@@ -83,11 +83,13 @@ module.exports = {
       })
       .catch((err) => { console.log(err); });
   },
-  updateReview: (newReview, cb) => {
+  updateReview: (reviewId, newReviewText) => {
     //update review
+    return Review.update({ _id: reviewId }, { review_text: newReviewText});
   },
   deleteReview: (reviewId) => {
     //delete review
+    return Review.deleteOne({ _id: reviewId });
   },
 };
 

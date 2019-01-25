@@ -35,7 +35,7 @@ class App extends Component {
   };
 
   getAllReviews = () => {
-    return Axios.get(`http://54.183.188.202:9000/api/reviews/all/${this.state.restaurantId}`)
+    return Axios.get(`http://13.57.250.60:9000/api/reviews/all/${this.state.restaurantId}`)
       .then(({data}) => {
         // console.log('--> fetched', data);
         data.forEach((review) => {
@@ -48,7 +48,7 @@ class App extends Component {
   };
 
   getReviewsSummary = () => {
-    return Axios.get(`http://54.183.188.202:9000/api/reviews/summary/${this.state.restaurantId}`)
+    return Axios.get(`http://13.57.250.60:9000/api/reviews/summary/${this.state.restaurantId}`)
       .then(({data}) => {
         this.setState({ reviewsSummary: data });
       });
