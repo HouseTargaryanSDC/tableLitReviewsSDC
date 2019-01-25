@@ -1,0 +1,22 @@
+
+language: node_js
+
+node_js: 
+  - 10.10.0
+
+install:
+  - npm install
+
+services:
+  -mongodb
+
+scripts:
+  - webpack
+  - node server/index.js
+  - npm test
+
+after_scripts:
+  - sudo service mongodb stop
+
+
+

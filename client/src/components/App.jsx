@@ -6,6 +6,10 @@ import ReviewsList from './reviewslist/ReviewsList.jsx';
 import PagesCarousel from './pagescarousel/PagesCarousel.jsx';
 import styles from '../styles/App.css';
 
+function generateRandomNumberBetween(beg, end) {
+  return Math.floor((Math.random() * (end - beg + 1)) + beg);
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +26,8 @@ class App extends Component {
   }
 
   componentWillMount = () => {
-    const restaurantId = Math.floor(Math.random() * 10) + 1;
+    // const restaurantId = Math.floor(Math.random() * 10) + 1;
+    const restaurantId = generateRandomNumberBetween(900001, 1000000);
     this.setState({ restaurantId }, () => {
       this.getAllReviews()
       .then(this.getReviewsSummary);
@@ -30,14 +35,20 @@ class App extends Component {
   };
 
   getAllReviews = () => {
-    return Axios.get(`http://3.86.82.182:9001/api/reviews/all/${this.state.restaurantId}`)
+    return Axios.get(`http://13.57.250.60:9000/api/reviews/all/${this.state.restaurantId}`)
       .then(({data}) => {
+        // console.log('--> fetched', data);
+        data.forEach((review) => {
+          review.user_total_reviews = review.user_data.user_total_reviews;
+          delete review.user_data;
+        });
+        // console.log(data);
         this.setState({ reviews: data });
       });
   };
 
   getReviewsSummary = () => {
-    return Axios.get(`http://3.86.82.182:9001/api/reviews/summary/${this.state.restaurantId}`)
+    return Axios.get(`http://13.57.250.60:9000/api/reviews/summary/${this.state.restaurantId}`)
       .then(({data}) => {
         this.setState({ reviewsSummary: data });
       });

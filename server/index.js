@@ -1,6 +1,9 @@
+require('newrelic');
 const http = require('http');
 const dotenv = require('dotenv');
 const app = require('./app.js');
+
+
 
 dotenv.config();
 
